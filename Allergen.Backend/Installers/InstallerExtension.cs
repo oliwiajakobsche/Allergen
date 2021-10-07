@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Allergen.Backend.Installers
+namespace AllergenBackend.Installers
 {
     public static class InstallerExtension
     {

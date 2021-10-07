@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 
 
-namespace Allergen.Backend.Helpers
+namespace AllergenBackend.Helpers
 {
     public static class Security
     {

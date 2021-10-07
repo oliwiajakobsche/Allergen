@@ -1,10 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Allergen.Backend.Database;
+using AllergenBackend.Database;
 using Microsoft.Extensions.Logging;
+using AllergenBackend.Contracts.V1.Responses;
+using System.Linq;
+using System.Collections.Generic;
 
-namespace Allergen.Backend.Controllers
+namespace AllergenBackend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -23,12 +26,20 @@ namespace Allergen.Backend.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var result = await _context.AllergenEfo.ToListAsync();
-            if (result.Count == 0)
+            var allergens = await _context.Allergens.ToListAsync();
+            var allergensResponse = from x in allergens
+                          select new AllergenDto()
+                          {
+                              Id = x.Id,
+                              Name = x.Name
+                          };
+
+            if (!allergensResponse.Any())
             {
                 return NotFound();
             }
-            return Ok(result);
+
+            return Ok(allergensResponse);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Allergen.Backend
+namespace AllergenBackend
 {
     public class Program
     {

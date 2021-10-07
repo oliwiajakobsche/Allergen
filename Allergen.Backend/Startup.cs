@@ -1,11 +1,11 @@
-using Allergen.Backend.Installers;
+using AllergenBackend.Installers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Allergen.Backend
+namespace AllergenBackend
 {
     public class Startup
     {
@@ -30,7 +30,7 @@ namespace Allergen.Backend
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Allergen.Backend v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AllergenBackend v1"));
             }
 
             app.UseRouting();

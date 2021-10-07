@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Allergen.Backend.Installers
+namespace AllergenBackend.Installers
 {
     public class SwaggerInstaller : IInstaller
     {
@@ -14,7 +14,7 @@ namespace Allergen.Backend.Installers
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Allergen.Backend", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "AllergenBackend", Version = "v1" });
             });
         }       
     }

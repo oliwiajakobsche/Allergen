@@ -1,9 +1,9 @@
-﻿using Allergen.Backend.Database;
+﻿using AllergenBackend.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Allergen.Backend.Installers
+namespace AllergenBackend.Installers
 {
     public class DbInstaller : IInstaller
     {

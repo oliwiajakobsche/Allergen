@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Allergen.Backend": {
+    "AllergenBackend": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

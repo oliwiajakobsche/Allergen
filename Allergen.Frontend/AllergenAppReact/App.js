@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+import TabNavigator from './components/TabNavigator';
+
 
 const App = () => {
   return (
     <NavigationContainer>
-      {/* Rest of your app code */}
+      <TabNavigator />
     </NavigationContainer>
   );
 };

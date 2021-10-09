@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, Text, ActivityIndicator, Switch, ListItem} from 'react-native';
+import {View, ActivityIndicator} from 'react-native';
 import UserAllergenEdit from './UserAllergenEdit';
 import { GetUserAllergensUrl } from '../ApiUrls';
 

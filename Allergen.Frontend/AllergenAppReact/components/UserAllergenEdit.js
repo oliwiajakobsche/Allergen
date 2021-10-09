@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {View, Text, ActivityIndicator, Switch, StyleSheet, AppRegistry} from 'react-native';
+import {View, Text, Switch} from 'react-native';
 import styles from './styles/UserAllergenEditStyle';
-import { DeleteUserAllergensUrl, AddUserAllergensUrl } from '../ApiUrls';
+import { DeleteUserAllergensUrl, AddUserAllergensUrl, UserId } from '../ApiUrls';
 
 class UserAllergenEdit extends React.Component {
         constructor(props) {
@@ -50,7 +50,7 @@ class UserAllergenEdit extends React.Component {
             console.log(url);
             fetch(url, { method: 'POST',
                 headers: { 'Content-type': 'application/json; charset=UTF-8'},
-                body: JSON.stringify({AllergenId: this.props.allergenId, UserId: 1})
+                body: JSON.stringify({AllergenId: this.props.allergenId, UserId: UserId})
             })
             .then(response => response.json())
             .then(data => console.log(data))

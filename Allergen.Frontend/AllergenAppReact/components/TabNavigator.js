@@ -17,15 +17,15 @@ const TabNavigator = () => {
         screenOptions={({route}) => ({
             tabBarLabel: ({focused}) => 
             (
-                <Text>{route.name == 'Profil' ? 'Profil' : 'Kalendarz'}</Text>
+                <Text>{route.name == 'Moje Alergeny' ? 'Moje Alergeny' : 'Kalendarz'}</Text>
             ),
             tabBarIcon: ({focused}) =>
-            route.name === 'Profil' ? 
+            route.name === 'Moje Alergeny' ? 
             <ProfileNavIcon icon={faUserCircle} focused={focused} size={28}/>
             :
             <ProfileNavIcon icon={faCalendarDay} focused={focused} size={28}/>          
         })}>
-        <Tab.Screen name={'Profil'} component={ProfileScreen}  />
+        <Tab.Screen name={'Moje Alergeny'} component={ProfileScreen}  />
         <Tab.Screen name={'Kalendarz'} component={CallendarScreen} />
     </Tab.Navigator>
   );

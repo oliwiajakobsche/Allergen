@@ -42,21 +42,20 @@ class ProfileScreen extends React.Component {
       }
       
       getUserAllergensFromApi () {
-        return fetch(GetUserAllergensUrl, {method: "GET",
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },})
+
+        const url = GetUserAllergensUrl;  
+              
+        console.log("Request to " + url);
+        return fetch(url, { method: "GET",
+            headers: { 'Accept': 'application/json, text/plain, */*', 'Content-Type': 'application/json'},
+          })
         .then((response)=>response.json())
-        .then( (responseJson) => {
-          this.setState({
+        .then((responseJson) => { this.setState({
             isLoading: false,
             dataSource: responseJson,
           })    
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => console.log(error));
       }
 }
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, Text, ActivityIndicator, Switch, ListItem, StyleSheet} from 'react-native';
+import {View, Text, ActivityIndicator, Switch, ListItem, StyleSheet, TouchableOpacity} from 'react-native';
 import { GetUserCallendrUrl, UserId } from '../ApiUrls';
 import CallendarAllergen from './CallendarAllergen';
 import styled from 'styled-components/native';
@@ -12,25 +12,32 @@ class CallendarScreen extends React.Component {
         this.state = {
           isLoading: true,
           dataSource: null,
-          date: new Date(),
-          rerender: false
+          currentDate: new Date()
         }
       }
 
       componentDidMount(){        
         this.focusListener = this.props.navigation.addListener('focus', () => { 
-                console.log('focus is called'); 
-               //your logic here.
-               console.log('state: ' + this.state.rerender); 
+                console.log('FOCUS is called - date' + moment(this.state.currentDate).format('YYYY-MM-DD'));
                this.state.isLoading=true;
-               this.getUserAllergensPolluteFromApi();
+               this.getUserAllergensPolluteFromApi(this.state.currentDate);
                
         });
-        return this.getUserAllergensPolluteFromApi();
+
+        //return this.getUserAllergensPolluteFromApi();
       }
 
+      addCalendarDay(dateP,days) {
+          newDate = moment(dateP).add(days, 'days').format("YYYY-MM-DD");
+
+          this.setState({currentDate : newDate});          
+          
+          this.getUserAllergensPolluteFromApi(newDate);
+        }
+
+
       render() {
-        console.log('rennnder'); 
+        console.log('RENDER CALLENDAR SCREEN'); 
         if(this.state.isLoading)
         {
           return (
@@ -50,9 +57,17 @@ class CallendarScreen extends React.Component {
         return(
           <View>
               <CalendarPicker>
-                  <Text style={styles.arrowLeft}> {"<"}  </Text>
-                    <Text style={styles.date}>{ moment(new Date()).format('YYYY-MM-DD') }</Text>   
-                   <Text style={styles.arrowRight}> {">"}  </Text>
+                 
+              <TouchableOpacity  style={styles.arrowLefttOpacity} onPress={() => this.addCalendarDay(this.state.currentDate,-1)} style={styles.arrowLeft}>
+                    <Text style={styles.arrowLeft}> {"<"} </Text>
+              </TouchableOpacity>
+              
+              <Text style={styles.date}>{ moment(this.state.currentDate).format('YYYY-MM-DD') }</Text>   
+                
+              <TouchableOpacity  style={styles.arrowRightOpacity} onPress={() => this.addCalendarDay(this.state.currentDate,1)} style={styles.arrowRight}>
+                <Text style={styles.arrowRight}> {">"} </Text>
+              </TouchableOpacity>
+                   
               </CalendarPicker>
               
                 {allergens}
@@ -61,9 +76,9 @@ class CallendarScreen extends React.Component {
         }
       }
       
-      getUserAllergensPolluteFromApi () {        
-        let date = moment(new Date()).format('YYYY-MM-DD')
-        let url = GetUserCallendrUrl + UserId.toString() + "/" + date;
+      getUserAllergensPolluteFromApi (date) {        
+       
+        let url = GetUserCallendrUrl + UserId.toString() + "/" + moment(date).format('YYYY-MM-DD');
 
         console.log(url);
         

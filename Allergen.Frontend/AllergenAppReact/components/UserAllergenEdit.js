@@ -8,24 +8,24 @@ class UserAllergenEdit extends React.Component {
             super(props);
             this.state = {
                 isToggled: false,
-                isMounted: false
+                isMounted: false                
             }
         }      
      
         toggleSwitch = (value) => {
-            if(this.state.isMounted == true)
-            {        
+           if(this.state.isMounted == true)
+           {   
                 this.setState({isToggled : value});
                 
                 if(value)
                 {
                     this.sendUserAllergenAddRequest();
                 }
-                else{
+                else
+                {
                     this.sendUserAllergenDeleteRequest();
                 }
-                console.log("Changed state");
-            }
+           }
         };
      
         componentDidMount = () => {
@@ -44,36 +44,34 @@ class UserAllergenEdit extends React.Component {
         }
 
         sendUserAllergenAddRequest () {
+
             const url = AddUserAllergensUrl;
-    
-            console.log("Alergen do dodania.");
-            console.log(url);
-            fetch(url, { method: 'POST',
+            const parametersJson = JSON.stringify({AllergenId: this.props.allergenId, UserId: UserId});
+
+            console.log("Request to " + url + "with parameters \n" + parametersJson);
+            
+            let dataFromApi = fetch(url, { method: 'POST',
                 headers: { 'Content-type': 'application/json; charset=UTF-8'},
-                body: JSON.stringify({AllergenId: this.props.allergenId, UserId: UserId})
+                body: parametersJson
             })
-            .then(response => response.json())
+            .then((response) => response)   
             .then(data => console.log(data))
-            .catch(err => console.log(err))
-    
-            console.log("Alergen dodano.");
+            .catch(err => console.log(err))          
           };
     
           sendUserAllergenDeleteRequest () {
     
-            console.log("Alergen do usunięcia");
-    
-            const url = DeleteUserAllergensUrl + this.props.userAllergenId;
-            console.log(url);
+            const url = DeleteUserAllergensUrl;
+            const parametersJson = JSON.stringify({allergenId: this.props.allergenId, userId: UserId});
+
+            console.log("Request to " + url + "with parameters \n" + parametersJson);
+
             fetch(url, { method: 'DELETE',
                 headers: { 'Content-type': 'application/json; charset=UTF-8'},
-                body: JSON.stringify({userAllergenId: this.props.userAllergenId})
+                body: parametersJson
             })
-            .then(response => response.json())
-            .then(data => console.log(data))
+            .then(response => console.log(response))
             .catch(err => console.log(err))
-    
-            console.log("Alergen usunięsto.");
           }
 }
 

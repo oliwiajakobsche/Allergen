@@ -16,7 +16,7 @@ class CallendarAllergen extends React.Component {
               case 1:   return <PolluteLevelLow>Niskie</PolluteLevelLow>;
               case 2:   return <PolluteLevelMedium>Średnie</PolluteLevelMedium>;
               case 3:   return <PolluteLevelHigh>Wysokie</PolluteLevelHigh>;
-              default:  return <PolluteLevelUnknown>Nieznane</PolluteLevelUnknown>;
+              default:  return <PolluteLevelUnknown>Brak</PolluteLevelUnknown>;
             }
           }
 

@@ -38,7 +38,7 @@ namespace AllergenBackend.Controllers
                          {
                              AllergenId = a.Id,
                              AllergenName = a.Name,
-                             UserAllergenId = output?.AllergenId ?? 0
+                             UserAllergenId = output?.Id ?? 0
                          };
 
             if (result == null)
@@ -50,10 +50,11 @@ namespace AllergenBackend.Controllers
         }
 
         // DELETE: api/UserAllergens/{userId}/{allergenId}
-        [HttpDelete("{userAllergenId}")]
-        public async Task<IActionResult> DeleteUserAllergen(int userAllergenId)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUserAllergen(UserAllergenDeleteRequest request)
         {
-            var userAllergen = await _context.UserAllergens.FindAsync(userAllergenId);
+            var userAllergen = await _context.UserAllergens.Where(x => x.AllergenId == request.AllergenId && x.UserId == request.UserId).FirstOrDefaultAsync();
+
             if (userAllergen == null)
             {
                 return NotFound();
@@ -67,10 +68,9 @@ namespace AllergenBackend.Controllers
 
 
         // POST: api/UserAllergens
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<UserAllergen>> PostUserAllergen(UserAllergenCreateRequest request)
-        {          
+        {
             var checkIfExist = await _context.UserAllergens.Where(x => x.AllergenId == request.AllergenId && x.UserId == request.UserId).FirstOrDefaultAsync();
 
             var userAllergenNew = new UserAllergen
@@ -81,10 +81,10 @@ namespace AllergenBackend.Controllers
             };
 
             if (checkIfExist == null)
-            {            
+            {
                 _context.UserAllergens.Add(userAllergenNew);
                 await _context.SaveChangesAsync();
-            }            
+            }
 
             return Created("GetUserAllergen", new { id = userAllergenNew.Id });
         }

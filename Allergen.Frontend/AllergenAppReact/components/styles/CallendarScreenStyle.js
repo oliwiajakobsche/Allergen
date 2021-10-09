@@ -7,17 +7,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#c1eba7cf',
         borderRadius: 10,
         textAlignVertical: 'center',
-        fontSize: 16
+        fontSize: 16,
+        maxWidth: '50%'
     },
     arrowLeft: {
-        flex: 1,
         textAlign: 'right',
         color: '#68d525',
         fontWeight: 'bold',        
         fontSize: 26
     },
     arrowRight: {
-        flex: 1,
         textAlign: 'left',
         color: '#68d525',
         fontWeight: 'bold',
@@ -42,6 +41,16 @@ const styles = StyleSheet.create({
     switch: {    
         flex: 1
     },
+    arrowRightOpacity: {
+        flex: 1,
+        textAlign: 'right',
+        borderWidth: 1,
+        borderColor: 'rgba(31, 31, 31, 0.7'
+    },
+    arrowLeftOpacity: {
+        flex: 1,
+        textAlign: 'left',
+    }
   });
 
 export default styles;

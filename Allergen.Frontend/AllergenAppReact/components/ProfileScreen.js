@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {View, Text, ActivityIndicator, Switch} from 'react-native';
-
-const ApiUrlGetUserAllergens = 'http://127.0.0.1:5575/api/UserAllergens/1';
+import {View, Text, ActivityIndicator, Switch, ListItem} from 'react-native';
+import UserAllergenEdit from './UserAllergenEdit';
+import { GetUserAllergensUrl } from '../ApiUrls';
 
 class ProfileScreen extends React.Component {
     constructor(props) {
@@ -13,22 +13,7 @@ class ProfileScreen extends React.Component {
       }
 
       componentDidMount(){        
-        return fetch(ApiUrlGetUserAllergens, {method: "GET",
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          'Content-Type': 'application/json'
-        },})
-        .then((response)=>response.json())
-        .then( (responseJson) => {
-          this.setState({
-            isLoading: false,
-            dataSource: responseJson,
-          })
-    
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+        return this.getUserAllergensFromApi();
       }
 
       render() {
@@ -44,7 +29,7 @@ class ProfileScreen extends React.Component {
           let allergens = this.state.dataSource.map((val, key) => {
             return (
             <View key={key}>
-              <Text>{val.allergenName}</Text>
+              <UserAllergenEdit allergenId={val.allergenId} allergenName={val.allergenName} userAllergenId={val.userAllergenId}></UserAllergenEdit>
             </View>
             )
           })
@@ -54,6 +39,24 @@ class ProfileScreen extends React.Component {
           </View>
         )
         }
+      }
+      
+      getUserAllergensFromApi () {
+        return fetch(GetUserAllergensUrl, {method: "GET",
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },})
+        .then((response)=>response.json())
+        .then( (responseJson) => {
+          this.setState({
+            isLoading: false,
+            dataSource: responseJson,
+          })    
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       }
 }
 

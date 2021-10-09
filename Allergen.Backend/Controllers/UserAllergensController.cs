@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AllergenBackend.Database;
 using AllergenBackend.Models;
 using AllergenBackend.Contracts.V1.Responses;
+using AllergenBackend.Contracts.V1.Requests;
 
 namespace AllergenBackend.Controllers
 {
@@ -23,11 +24,11 @@ namespace AllergenBackend.Controllers
         }
 
 
-        // GET: api/UserAllergens/5
-        [HttpGet("{UserId}")]
-        public async Task<IActionResult> GetUserAllergens(int UserId)
+        // GET: api/UserAllergens/{userId}
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUserAllergens(int userId)
         {
-            var userAllergens = await _context.UserAllergens.Where(x => x.UserId == UserId).ToListAsync();
+            var userAllergens = await _context.UserAllergens.Where(x => x.UserId == userId).ToListAsync();
             var allergens = await _context.Allergens.ToListAsync();
 
             var result = from a in allergens
@@ -48,53 +49,11 @@ namespace AllergenBackend.Controllers
             return Ok(result);
         }
 
-        // PUT: api/UserAllergens/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserAllergen(int id, UserAllergen userAllergen)
+        // DELETE: api/UserAllergens/{userId}/{allergenId}
+        [HttpDelete("{userAllergenId}")]
+        public async Task<IActionResult> DeleteUserAllergen(int userAllergenId)
         {
-            if (id != userAllergen.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(userAllergen).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserAllergenExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/UserAllergens
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<UserAllergen>> PostUserAllergen(UserAllergen userAllergen)
-        {
-            _context.UserAllergens.Add(userAllergen);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUserAllergen", new { id = userAllergen.Id }, userAllergen);
-        }
-
-        // DELETE: api/UserAllergens/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserAllergen(int id)
-        {
-            var userAllergen = await _context.UserAllergens.FindAsync(id);
+            var userAllergen = await _context.UserAllergens.FindAsync(userAllergenId);
             if (userAllergen == null)
             {
                 return NotFound();
@@ -106,9 +65,29 @@ namespace AllergenBackend.Controllers
             return NoContent();
         }
 
-        private bool UserAllergenExists(int id)
-        {
-            return _context.UserAllergens.Any(e => e.Id == id);
+
+        // POST: api/UserAllergens
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<UserAllergen>> PostUserAllergen(UserAllergenCreateRequest request)
+        {          
+            var checkIfExist = await _context.UserAllergens.Where(x => x.AllergenId == request.AllergenId && x.UserId == request.UserId).FirstOrDefaultAsync();
+
+            var userAllergenNew = new UserAllergen
+            {
+                AllergenId = request.AllergenId,
+                UserId = request.UserId,
+                Created = DateTime.Now
+            };
+
+            if (checkIfExist == null)
+            {            
+                _context.UserAllergens.Add(userAllergenNew);
+                await _context.SaveChangesAsync();
+            }            
+
+            return Created("GetUserAllergen", new { id = userAllergenNew.Id });
         }
+
     }
 }
